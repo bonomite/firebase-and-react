@@ -3,10 +3,15 @@ import {LiveCard} from './LiveCard'
 import {Person} from '../models/Person'
 import fire from './fire';
 
+
+
 export class App extends Component {
   constructor(props) {
     super(props);
     //this.state = { users: [] }; // <- set up react state
+
+    
+
     this.state = {
       user_model: new Person(),
     };
@@ -31,11 +36,7 @@ export class App extends Component {
     this.addRecord = this.addRecord.bind(this);  
   }
   componentWillMount(){
-/*    let messagesRef = fire.database().ref('messages').orderByKey().limitToLast(100);
-    messagesRef.on('child_added', snapshot => {
-      let message = { text: snapshot.val(), id: snapshot.key };
-      this.setState({ messages: [message].concat(this.state.messages) });
-    })*/
+
       var S4 = function() {
          return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
       };
@@ -48,11 +49,6 @@ export class App extends Component {
         }
       })
 
-  }
-  addMessage(e){
-    /*e.preventDefault(); // <- prevent form submit from reloading the page
-    fire.database().ref('messages').push( this.inputEl.value );
-    this.inputEl.value = ''; // <- clear the input*/
   }
 
   addRecord(e){
@@ -83,7 +79,11 @@ export class App extends Component {
       <div className="container">
       <div className="row">
         <div className="col-sm-4"> 
-        <form onSubmit={this.addRecord} onChange={this.changing.bind(this)}>
+        <form ref="form" onSubmit={this.addRecord} onChange={this.changing.bind(this)}>
+
+
+
+
           <div className="form-group row">
             <label className="col-12 col-form-label pb-0" htmlFor="firstname">First name</label> 
             <div className="col-12">
