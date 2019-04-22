@@ -3,6 +3,7 @@ export class Person {
     constructor(user_obj = {}) {      
         //this.uid = ('uid' in user_obj) ? user_obj.uid : '';       
         this.uid = '';       
+        this.image = '';
         this.firstname = '';
         this.lastname = ''; 
         this.email = '';    
@@ -20,6 +21,12 @@ export class PersonValidators {
 
     constructor(){
         return{
+            image:{
+                rules:'required',
+                messages:{
+                    required:'Custom required message image',
+                }
+            },
             firstname:{
                 rules:'required',
                 messages:{

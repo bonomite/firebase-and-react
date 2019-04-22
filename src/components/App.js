@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import { LiveCard } from './LiveCard'
 import { Person, PersonValidators } from '../models/Person'
 import fire from './fire';
+import * as filestack from 'filestack-js';
+
+const fs = filestack.init('ABjYBIzVATYCMDOrr7a9ez');
 
 export class App extends Component {
   constructor(props) {
@@ -51,6 +54,8 @@ export class App extends Component {
     this.submitForm = this.submitForm.bind(this);  
     //this.changing = this.changing.bind(this);      
     this.handleInputChange = this.handleInputChange.bind(this);      
+    this.fsUpload = this.fsUpload.bind(this);      
+    this.setImage = this.setImage.bind(this);      
   }
   
   componentWillMount(){
@@ -82,7 +87,36 @@ export class App extends Component {
     }
   }
 
+  fsUpload(e){
+    e.preventDefault(); 
+    fs.picker({
+      maxFiles: 1,
+      uploadInBackground: false,      
+      onOpen: () => console.log('opened!'),
+      onUploadDone: function(res){
+        console.log(res);
+        const imgUrl = res.filesUploaded[0].url
+        console.log('imgUrl = '+imgUrl);
 
+        const name = 'image'
+        
+        this.setImage(name,imgUrl);
+        
+        
+      }
+    }).open();    
+  }
+
+  setImage(name,url){
+    console.log('name = '+name);
+    console.log('url = '+url);
+    this.setState({
+      user_model:{
+        ...this.state.user_model,
+        [name]: url,
+      }
+    });
+  }
 
   addRecord(){      
     fire.database().ref('users/'+this.state.user_model.uid).set(this.state.user_model);    
@@ -135,6 +169,16 @@ export class App extends Component {
         <div className="col-sm-4"> 
         
         <form config={this.formConfig} ref="form" onSubmit={this.submitForm} >
+          
+          <button onClick={this.fsUpload}>UPLOAD A IMAGE</button>
+          
+          <div className="form-group row">
+            <label className="col-12 col-form-label pb-0" htmlFor="firstname">Image</label> 
+            <div className="col-12">
+              <input id="image" name="image" disabled placeholder="" value={user_model.image} onChange={this.handleInputChange} type="text" className="form-control" />
+              {this.validator.message('image', user_model.image, validators.image.rules, { messages:validators.image.messages }) }
+            </div>
+          </div>
 
           <div className="form-group row">
             <label className="col-12 col-form-label pb-0" htmlFor="firstname">First name</label> 
