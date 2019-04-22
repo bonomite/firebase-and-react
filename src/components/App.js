@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {LiveCard} from './LiveCard'
 import {Person} from '../models/Person'
 import fire from './fire';
-
-
+import { Formik } from 'formik';
 
 export class App extends Component {
   constructor(props) {
@@ -73,16 +72,22 @@ export class App extends Component {
       }
       
     })  
-  } 
+  }
+
+
+
+
   render() {
+
+    
+
+
     return (
       <div className="container">
       <div className="row">
         <div className="col-sm-4"> 
-        <form ref="form" onSubmit={this.addRecord} onChange={this.changing.bind(this)}>
-
-
-
+        
+        <form config={this.formConfig} ref="form" onSubmit={this.addRecord} onChange={this.changing.bind(this)}>
 
           <div className="form-group row">
             <label className="col-12 col-form-label pb-0" htmlFor="firstname">First name</label> 
@@ -211,7 +216,7 @@ export class App extends Component {
             </div>
           </div>
 
-        </form>
+        </form >
         </div>
           <div className="col-sm-8">
             <LiveCard
