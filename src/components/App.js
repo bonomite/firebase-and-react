@@ -5,7 +5,7 @@ import { Person, PersonValidators } from '../models/Person'
 import fire from './fire';
 import * as filestack from 'filestack-js';
 
-const fs = filestack.init('ABjYBIzVATYCMDOrr7a9ez');
+
 
 export class App extends Component {
   constructor(props) {
@@ -55,10 +55,14 @@ export class App extends Component {
     //this.changing = this.changing.bind(this);      
     this.handleInputChange = this.handleInputChange.bind(this);      
     this.fsUpload = this.fsUpload.bind(this);      
-    this.setImage = this.setImage.bind(this);      
+    this.setImage = this.setImage.bind(this);  
+
+    this.fs = filestack.init('ABjYBIzVATYCMDOrr7a9ez');
+
   }
   
   componentWillMount(){
+
 
       var S4 = function() {
          return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
@@ -72,6 +76,11 @@ export class App extends Component {
         }
       })
 
+  }
+
+  componentDidMount(){
+
+       
   }
 
   submitForm(e) {
@@ -89,31 +98,28 @@ export class App extends Component {
 
   fsUpload(e){
     e.preventDefault(); 
-    fs.picker({
+    this.fs.picker({
       maxFiles: 1,
       uploadInBackground: false,      
       onOpen: () => console.log('opened!'),
-      onUploadDone: function(res){
-        console.log(res);
-        const imgUrl = res.filesUploaded[0].url
-        console.log('imgUrl = '+imgUrl);
-
-        const name = 'image'
-        
-        this.setImage(name,imgUrl);
-        
-        
+      onFileUploadFinished: (res) => console.log('finished = '+res[0]),
+      onUploadDone: (res) => {
+        //console.log(res);
+        //console.log(res.filesUploaded[0].url);
+        console.log(`this =  ${this}`);
+        this.setImage(res.filesUploaded[0].url);
+        //this.setImage("https://cdn.filestackcontent.com/0GfdupWDTA6O4FXfjIfk");
+                
       }
     }).open();    
   }
 
-  setImage(name,url){
-    console.log('name = '+name);
+  setImage(url){    
     console.log('url = '+url);
     this.setState({
       user_model:{
         ...this.state.user_model,
-        [name]: url,
+        image: url,
       }
     });
   }
@@ -157,11 +163,11 @@ export class App extends Component {
 
 
 
+           
   render() {
 
-    
     let user_model = this.state.user_model,
-        validators = new PersonValidators();        
+        validators = new PersonValidators(); 
 
     return (
       <div className="container">

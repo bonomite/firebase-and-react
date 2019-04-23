@@ -24,7 +24,7 @@ export class PersonValidators {
             image:{
                 rules:'required',
                 messages:{
-                    required:'Custom required message image',
+                    required:'Upload a profile image',
                 }
             },
             firstname:{
