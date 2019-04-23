@@ -10,16 +10,16 @@ export class LiveCard extends React.Component {
 
 		return (
 
-			<div className="live-card">				
-				<img src={this.props.user_model.image} />
+			<div className="live-card mx-auto">				
+				<div className='user-img' style={{backgroundImage:"url("+this.props.user_model.image+")"}}></div>
 				<p className='name'>{this.props.user_model.firstname} {this.props.user_model.lastname}</p>				
 				<p className='email'>{this.props.user_model.email}</p>
 				<div className='address'>
 					<p>{this.props.user_model.address} {this.props.user_model.address2}</p>					
-					<p>{this.props.user_model.city}, {this.props.user_model.state} {this.props.user_model.zip}</p>					
+					<p>{this.props.user_model.city} {this.props.user_model.state} {this.props.user_model.zip}</p>					
 				</div>
 				{/*<p style={{display:this.props.user_model.agree ? 'block' : 'none'}}>Agree</p>*/}
-				<img src="images/star.png" style={{display:this.props.user_model.agree2 ? 'block' : 'none'}} />				
+				<img className='star' src="images/star.png" style={{display:this.props.user_model.agree2 ? 'block' : 'none'}} />				
 			</div>
 
 		)
