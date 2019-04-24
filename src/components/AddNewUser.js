@@ -1,5 +1,6 @@
 import SimpleReactValidator from 'simple-react-validator'
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { LiveCard } from './LiveCard'
 import { Person, PersonValidators } from '../models/Person'
 import fire from './fire';
@@ -13,7 +14,6 @@ export class AddNewUser extends Component {
     
     this.state = {
       user_model: new Person(),
-      ready:false,
     };
 
     this.validator = new SimpleReactValidator({      
@@ -50,6 +50,9 @@ export class AddNewUser extends Component {
       }
     }; */
 
+    /*init filestack*/
+    this.fs = filestack.init('ABjYBIzVATYCMDOrr7a9ez');
+
     /*sets scope to the base class, not just from with in the method*/
     this.addRecord = this.addRecord.bind(this);  
     this.submitForm = this.submitForm.bind(this);  
@@ -57,10 +60,8 @@ export class AddNewUser extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);      
     this.fsUpload = this.fsUpload.bind(this);      
     this.setImage = this.setImage.bind(this);  
-    this.closeAndClearFields = this.closeAndClearFields.bind(this);
-    this.addNewUser = this.addNewUser.bind(this);           
+    this.unmountMe = this.unmountMe.bind(this);          
 
-    this.fs = filestack.init('ABjYBIzVATYCMDOrr7a9ez');
 
   }
   
@@ -126,9 +127,17 @@ export class AddNewUser extends Component {
     });    
   }
 
-  addRecord(){      
-    fire.database().ref('users/'+this.state.user_model.uid).set(this.state.user_model); 
-    this.closeAndClearFields();
+  addRecord(){
+    let self = this;      
+    fire.database().ref('users/'+this.state.user_model.uid).set(this.state.user_model,
+      function(error) {
+        if (error) {
+          console.log('failed');
+        } else {
+          console.log('sent');
+          self.unmountMe();
+        }
+      }); 
   }
 
 
@@ -163,41 +172,9 @@ export class AddNewUser extends Component {
   //   })  
   // }
 
-  closeAndClearFields(){
-
-    this.setState({
-        user_model:{
-            image:      '',
-            uid:        '',
-            firstname : '',
-            lastname :  '',
-            email :     '',
-            address :   '',
-            address2 :  '',
-            city :      '',
-            states :    '',
-            zip :       '',
-            agree :     '',
-            agree2 :    '',
-      },
-      ready:false,
-    });
-
-    document.getElementById('agree').checked = false;
-    document.getElementById('agree2').checked = false;
-
-    /*clear and validation messages*/
-    this.validator.hideMessages();    
+  unmountMe(){
+    ReactDOM.unmountComponentAtNode(document.getElementById('mount_AddNewUser_here'));   
   }
-
-
-  addNewUser(){
-    console.log('addNewUser');
-    this.setState({
-      ready:true,
-    });
-  }
-
            
   render() {
 
@@ -206,9 +183,9 @@ export class AddNewUser extends Component {
 
 
     return (
-      <div className="AddNewUser" style={{display:this.state.ready ? 'block' : 'none'}} >
+      <div className="AddNewUser">
       <div className="container">
-      <div onClick={this.closeAndClearFields} className="closer">&times;</div>
+      <div onClick={this.unmountMe} className="closer">&times;</div>
       <div className="row">
         <div className="col-sm-4"> 
         

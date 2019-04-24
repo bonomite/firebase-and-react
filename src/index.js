@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import './App.scss';
 import {App} from './components/App';
-import {AddNewUser} from './components/AddNewUser';
 import * as serviceWorker from './serviceWorker';
 // export for others scripts to use
 

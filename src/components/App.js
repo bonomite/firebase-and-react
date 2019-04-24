@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import {AddNewUser} from '../components/AddNewUser';
+import {YouSureYouWanToDelete} from '../components/YouSureYouWanToDelete';
 import { LiveCard } from './LiveCard'
-import { Person, PersonValidators } from '../models/Person'
+import { Person } from '../models/Person'
 import fire from './fire';
-//import * as filestack from 'filestack-js';
+
 
 
 
@@ -16,10 +18,12 @@ export class App extends Component {
     };  
 
     /*refs to children*/  
-    this.AddNewUser_ref = React.createRef();
+    //this.AddNewUser_ref = React.createRef();
 
     /*method binding*/
-    this.addNewUser_inChild = this.addNewUser_inChild.bind(this);      
+    this.addNewUser = this.addNewUser.bind(this);      
+    this.editCard = this.editCard.bind(this);      
+    this.deleteCard = this.deleteCard.bind(this);      
     
   }
   
@@ -29,29 +33,47 @@ export class App extends Component {
     let self = this;
     fire.database().ref('users').on("value",
       function(snapshot) {
+
         let people = [];
+
         snapshot.forEach(function(childSnapshot) {          
           var key = childSnapshot.key;          
           var childData = childSnapshot.val();
-          console.log('key = '+key);
-          console.log('childData = '+childData);
-          /*push to array and then setState*/          
+          //console.log('key = '+key);
+          //console.log('childData = '+childData);
+          //push to array and then setState
           people.push(new Person(childData));
       });
         self.setState({people});
     });
   }
 
-  addNewUser_inChild(){
-    this.AddNewUser_ref.current.addNewUser();
+  editCard(e){
+    console.log('edit card :uid = '+e.target.closest('.live-card').getAttribute('uid'));
+    const uid = e.target.closest('.live-card').getAttribute('uid');
+
+  }
+
+  deleteCard(e){
+    const thisCard = e.target.closest('.live-card');
+    const thisCardHolder = e.target.closest('.live-card-holder');
+    const mountLocation = thisCardHolder.querySelector('.youSureYouWanToDelete-holder');
+    console.log('delete card :uid = '+thisCard.getAttribute('uid'));
+    const uid = e.target.closest('.live-card').getAttribute('uid');
+    ReactDOM.render(<YouSureYouWanToDelete uid={uid} thisCardHolder={thisCardHolder}/>, mountLocation);
+  }
+
+  addNewUser(){
+    //this.AddNewUser_ref.current.addNewUser();
+    ReactDOM.render(<AddNewUser />, document.getElementById('mount_AddNewUser_here'));
   }
            
   render() {
 
     const peopleRender = this.state.people.map((person, index) => {      
       return (
-        <div className="col-md-6 col-lg-3" key={index}>
-          <LiveCard user_model={person}/>
+        <div className="col-md-6 col-lg-3 live-card-holder" key={index}>
+          <LiveCard user_model={person} editCard={this.editCard} deleteCard={this.deleteCard}/>
         </div>
       )
     });
@@ -59,15 +81,15 @@ export class App extends Component {
 
     return (
       <div>
-      <div className="container">
-        <button onClick={this.addNewUser_inChild}>ADD NEW USER</button> 
-        <div className="row populateCardsHere">
-          
-          {peopleRender}
+        <div className="container">
+          <button onClick={this.addNewUser}>ADD NEW USER</button> 
+          <div className="row">
+            
+            {peopleRender}
 
+          </div>
         </div>
-      </div>
-      <AddNewUser ref={this.AddNewUser_ref} />
+        <div id="mount_AddNewUser_here"></div>
       </div>
     );
   }
