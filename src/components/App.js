@@ -51,21 +51,23 @@ export class App extends Component {
   editCard(e){
     console.log('edit card :uid = '+e.target.closest('.live-card').getAttribute('uid'));
     const uid = e.target.closest('.live-card').getAttribute('uid');
-
+    const thisCardHolder = e.target.closest('.live-card-holder');
+    const mountLocation = document.getElementById('mount_AddNewUser_here');
+    ReactDOM.render(<AddNewUser edit={true} mountLocation={mountLocation} uid={uid} />, mountLocation);
   }
 
   deleteCard(e){
     const thisCard = e.target.closest('.live-card');
     const thisCardHolder = e.target.closest('.live-card-holder');
     const mountLocation = thisCardHolder.querySelector('.youSureYouWanToDelete-holder');
-    console.log('delete card :uid = '+thisCard.getAttribute('uid'));
     const uid = e.target.closest('.live-card').getAttribute('uid');
-    ReactDOM.render(<YouSureYouWanToDelete uid={uid} thisCardHolder={thisCardHolder}/>, mountLocation);
+    //console.log('delete card :uid = '+thisCard.getAttribute('uid'));
+    ReactDOM.render(<YouSureYouWanToDelete mountLocation={mountLocation} uid={uid} thisCardHolder={thisCardHolder}/>, mountLocation);
   }
 
   addNewUser(){
     //this.AddNewUser_ref.current.addNewUser();
-    ReactDOM.render(<AddNewUser />, document.getElementById('mount_AddNewUser_here'));
+    ReactDOM.render(<AddNewUser edit={false} mountLocation={document.getElementById('mount_AddNewUser_here')} />, document.getElementById('mount_AddNewUser_here'));
   }
            
   render() {
@@ -73,7 +75,7 @@ export class App extends Component {
     const peopleRender = this.state.people.map((person, index) => {      
       return (
         <div className="col-md-6 col-lg-3 live-card-holder" key={index}>
-          <LiveCard user_model={person} editCard={this.editCard} deleteCard={this.deleteCard}/>
+          <LiveCard user_model={person} editCard={this.editCard} deleteCard={this.deleteCard} buttons={true} />
         </div>
       )
     });

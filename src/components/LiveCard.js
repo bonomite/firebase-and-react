@@ -5,11 +5,11 @@ export class LiveCard extends React.Component {
   	
 	render() {
 
+		
 		return (
-
 			<div className="live-card mx-auto" uid={this.props.user_model.uid}>
-				<p className="edit" onClick={this.props.editCard}>EDIT</p>				
-				<p className="delete" onClick={this.props.deleteCard}>X</p>				
+				<p className="edit" onClick={this.props.editCard} style={{display:this.props.buttons ? 'block' : 'none'}} >EDIT</p>				
+				<p className="delete" onClick={this.props.deleteCard} style={{display:this.props.buttons ? 'block' : 'none'}} >X</p>				
 				<div className='user-img' style={{backgroundImage:"url("+this.props.user_model.image+")"}}></div>
 				<p className='name'>{this.props.user_model.firstname} {this.props.user_model.lastname}</p>				
 				<p className='email'><a href={`mailto:${this.props.user_model.email}`}> {this.props.user_model.email}</a></p>

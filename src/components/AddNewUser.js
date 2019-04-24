@@ -6,15 +6,28 @@ import { Person, PersonValidators } from '../models/Person'
 import fire from './fire';
 import * as filestack from 'filestack-js';
 
-
+let edit;
 
 export class AddNewUser extends Component {
   constructor(props) {
     super(props);
-    
+
+    edit = this.props.edit;
+
+    if(edit){
+      let self = this;
+      fire.database().ref('users/'+this.props.uid).once("value").then(function(snapshot) {
+        let currentPerson = new Person(snapshot.val());        
+        self.setState({
+          user_model: currentPerson,
+        });
+      });        
+    }
+
     this.state = {
       user_model: new Person(),
     };
+    
 
     this.validator = new SimpleReactValidator({      
       messages: {
@@ -68,6 +81,11 @@ export class AddNewUser extends Component {
   componentWillMount(){
 
 
+
+  }
+
+  componentDidMount(){
+    if(!edit){
       var S4 = function() {
          return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
       };
@@ -79,12 +97,7 @@ export class AddNewUser extends Component {
           uid:(S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4())
         }
       })
-
-  }
-
-  componentDidMount(){
-
-       
+    }
   }
 
   submitForm(e) {
@@ -173,7 +186,7 @@ export class AddNewUser extends Component {
   // }
 
   unmountMe(){
-    ReactDOM.unmountComponentAtNode(document.getElementById('mount_AddNewUser_here'));   
+    ReactDOM.unmountComponentAtNode(this.props.mountLocation);   
   }
            
   render() {
@@ -342,7 +355,8 @@ export class AddNewUser extends Component {
 
         <div className="col-sm-8">
           <LiveCard              
-            user_model={this.state.user_model}              
+            user_model={this.state.user_model}
+            buttons={false}              
             className="p-4"
           />
         </div>
