@@ -49,7 +49,7 @@ export class App extends Component {
   }
 
   editCard(e){
-    console.log('edit card :uid = '+e.target.closest('.live-card').getAttribute('uid'));
+    //console.log('edit card :uid = '+e.target.closest('.live-card').getAttribute('uid'));
     const uid = e.target.closest('.live-card').getAttribute('uid');
     const thisCardHolder = e.target.closest('.live-card-holder');
     const mountLocation = document.getElementById('mount_AddNewUser_here');

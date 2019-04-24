@@ -329,7 +329,7 @@ export class AddNewUser extends Component {
             <div className="col-12"></div> 
             <div className="col-12">
               <div className="custom-control custom-checkbox custom-control-inline">
-                <input name="agree" id="agree" type="checkbox" className="custom-control-input" value={user_model.agree} onChange={this.handleInputChange} /> 
+                <input name="agree" id="agree" checked={user_model.agree ? 'checked' : ''} type="checkbox" className="custom-control-input" value={user_model.agree} onChange={this.handleInputChange} /> 
                 {this.validator.message('agree', user_model.agree, validators.agree.rules, { messages:validators.agree.messages }) } 
                 <label htmlFor="agree" className="custom-control-label">I agree to something</label>
               </div>
@@ -339,8 +339,8 @@ export class AddNewUser extends Component {
             <div className="col-12"></div> 
             <div className="col-12">
               <div className="custom-control custom-checkbox custom-control-inline">
-                <input name="agree2" id="agree2" type="checkbox" className="custom-control-input" value={user_model.agree2} onChange={this.handleInputChange}/> 
-                {this.validator.message('agree2', user_model.agree2, validators.agree2.rules, { messages:validators.agree2.messages }) }
+                <input name="agree2" id="agree2" checked={user_model.agree2 ? 'checked' : ''} type="checkbox" className="custom-control-input" value={user_model.agree2} onChange={this.handleInputChange}/> 
+                {/*{this.validator.message('agree2', user_model.agree2, validators.agree2.rules, { messages:validators.agree2.messages }) }*/}
                 <label htmlFor="agree2" className="custom-control-label">I agree to something but not required</label>
               </div>
             </div>

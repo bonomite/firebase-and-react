@@ -86,12 +86,12 @@ export class PersonValidators {
                     required:'Custom required message agree',                    
                 }
             },
-            agree2:{
+           /* agree2:{
                 rules:'required',
                 messages:{
                     required:'Custom required message agree2',                    
                 }
-            },
+            },*/
         }
     }   
     
