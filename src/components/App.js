@@ -37,8 +37,8 @@ export class App extends Component {
         let people = [];
 
         snapshot.forEach(function(childSnapshot) {          
-          var key = childSnapshot.key;          
-          var childData = childSnapshot.val();
+          //var key = childSnapshot.key;          
+          let childData = childSnapshot.val();
           //console.log('key = '+key);
           //console.log('childData = '+childData);
           //push to array and then setState
@@ -51,13 +51,13 @@ export class App extends Component {
   editCard(e){
     //console.log('edit card :uid = '+e.target.closest('.live-card').getAttribute('uid'));
     const uid = e.target.closest('.live-card').getAttribute('uid');
-    const thisCardHolder = e.target.closest('.live-card-holder');
+    //const thisCardHolder = e.target.closest('.live-card-holder');
     const mountLocation = document.getElementById('mount_AddNewUser_here');
     ReactDOM.render(<AddNewUser edit={true} mountLocation={mountLocation} uid={uid} />, mountLocation);
   }
 
   deleteCard(e){
-    const thisCard = e.target.closest('.live-card');
+    //const thisCard = e.target.closest('.live-card');
     const thisCardHolder = e.target.closest('.live-card-holder');
     const mountLocation = thisCardHolder.querySelector('.youSureYouWanToDelete-holder');
     const uid = e.target.closest('.live-card').getAttribute('uid');

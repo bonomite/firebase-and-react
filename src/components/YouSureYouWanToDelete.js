@@ -15,11 +15,9 @@ export class YouSureYouWanToDelete extends React.Component {
 
 	deleteThisCard(e){
 		const uid = this.props.uid;
-		const thisCard = this.props.thisCardHolder;
-		const mountLocation = this.props.mountLocation;
+		const thisCard = this.props.thisCardHolder;		
 		thisCard.parentNode.removeChild(thisCard);
-		/*remove from firebase*/
-		let self = this;      
+		/*remove from firebase*/		   
 	    fire.database().ref('users/'+uid).remove(
 	      function(error) {
 	        if (error) {

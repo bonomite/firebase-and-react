@@ -85,19 +85,19 @@ export class AddNewUser extends Component {
   }
 
   componentDidMount(){
-    if(!edit){
+    /*if(!edit){
       var S4 = function() {
          return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
       };
 
       this.setState({
         user_model:{
-          /*added all the empty defaults in PERSON*/
+          //added all the empty defaults in PERSON
           ...this.state.user_model,
           uid:(S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4())
         }
       })
-    }
+    }*/
   }
 
   submitForm(e) {
@@ -142,15 +142,66 @@ export class AddNewUser extends Component {
 
   addRecord(){
     let self = this;      
-    fire.database().ref('users/'+this.state.user_model.uid).set(this.state.user_model,
-      function(error) {
-        if (error) {
-          console.log('failed');
-        } else {
-          console.log('sent');
-          self.unmountMe();
-        }
-      }); 
+    let newUserID = '';
+    
+    if(!edit){
+
+      fire.auth().createUserWithEmailAndPassword(self.state.user_model.email, self.state.user_model.address2)
+        .then(function(firebaseUser) {
+            
+            newUserID = firebaseUser.user.uid;
+
+            console.log("User " + newUserID + " created successfully!");
+            console.log('firebaseUser.user.uid = '+newUserID);
+            console.log(JSON.stringify(firebaseUser, null, 4));
+
+
+            self.setState({
+              user_model:{
+                //added all the empty defaults in PERSON
+                ...self.state.user_model,
+                uid:newUserID,
+              }
+            })
+            
+
+            fire.database().ref('users/'+newUserID).set(self.state.user_model,
+              function(error) {
+                if (error) {
+                  console.log('failed');
+                } else {
+                  console.log('sent');                
+                }
+              }); 
+
+            //return fire.auth.$signInWithEmailAndPassword(email, password);
+        }).then(function(firebaseUser) {
+            console.log("Logged in as:", firebaseUser);
+            self.unmountMe();
+        }).catch(function(error) {
+            console.error("Error: ", error);
+        });
+
+      }else{
+
+        fire.database().ref('users/'+self.state.user_model.uid).set(self.state.user_model,
+          function(error) {
+            if (error) {
+              console.log('failed');
+            } else {
+              console.log('sent');
+              self.unmountMe();                
+            }
+          }); 
+
+      }
+
+
+
+      
+     
+
+
   }
 
 
