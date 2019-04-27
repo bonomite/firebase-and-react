@@ -9,6 +9,7 @@ import fire from './fire';
 
 
 
+
 export class App extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +24,7 @@ export class App extends Component {
     /*method binding*/
     this.addNewUser = this.addNewUser.bind(this);      
     this.editCard = this.editCard.bind(this);      
-    this.deleteCard = this.deleteCard.bind(this);      
+    this.deleteCard = this.deleteCard.bind(this);           
     
   }
   
@@ -49,6 +50,7 @@ export class App extends Component {
   }
 
   editCard(e){
+    e.stopPropagation();
     //console.log('edit card :uid = '+e.target.closest('.live-card').getAttribute('uid'));
     const uid = e.target.closest('.live-card').getAttribute('uid');
     //const thisCardHolder = e.target.closest('.live-card-holder');
@@ -57,6 +59,7 @@ export class App extends Component {
   }
 
   deleteCard(e){
+    e.stopPropagation();
     //const thisCard = e.target.closest('.live-card');
     const thisCardHolder = e.target.closest('.live-card-holder');
     const mountLocation = thisCardHolder.querySelector('.youSureYouWanToDelete-holder');

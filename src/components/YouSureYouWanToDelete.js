@@ -14,6 +14,7 @@ export class YouSureYouWanToDelete extends React.Component {
   	}
 
 	deleteThisCard(e){
+		e.stopPropagation();
 		const uid = this.props.uid;
 		const thisCard = this.props.thisCardHolder;		
 		thisCard.parentNode.removeChild(thisCard);
@@ -29,7 +30,9 @@ export class YouSureYouWanToDelete extends React.Component {
 	    ); 	
 	}
 
-	unmountMe(){
+	unmountMe(e){
+		e.stopPropagation();
+		e.preventDefault();
 		ReactDOM.unmountComponentAtNode(this.props.mountLocation);   
 	}
 

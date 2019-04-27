@@ -382,6 +382,7 @@ export class AddNewUser extends Component {
               <div className="custom-control custom-checkbox custom-control-inline">
                 <input name="agree" id="agree" checked={user_model.agree ? 'checked' : ''} type="checkbox" className="custom-control-input" value={user_model.agree} onChange={this.handleInputChange} /> 
                 {this.validator.message('agree', user_model.agree, validators.agree.rules, { messages:validators.agree.messages }) } 
+                
                 <label htmlFor="agree" className="custom-control-label">I agree to something</label>
               </div>
             </div>

@@ -12,6 +12,7 @@ p{
   padding: 20px;
   -webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+  cursor: pointer;
     
   .youSureYouWanToDelete-holder{
     .youSureYouWanToDelete{
@@ -55,7 +56,7 @@ p{
     position: relative;
     display: block;
     width : 100%;
-    min-width: 215px;
+    min-width: 170px;
     @media (max-width: 767px){
         min-width: 0;
     }

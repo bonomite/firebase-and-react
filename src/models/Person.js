@@ -81,15 +81,15 @@ export class PersonValidators {
                 }
             },
             agree:{
-                rules:'required',
+                rules:'accepted',
                 messages:{
-                    required:'Custom required message agree',                    
+                    accepted:'Custom required message agree',                    
                 }
             },
            /* agree2:{
-                rules:'required',
+                rules:'accepted',
                 messages:{
-                    required:'Custom required message agree2',                    
+                    accepted:'Custom required message agree2',                    
                 }
             },*/
         }
