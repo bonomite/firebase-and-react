@@ -1,21 +1,17 @@
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker,
-} from "react-google-maps";
+//import ReactDOM from 'react-dom';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+//import Geocode from "react-geocode";
 
 export let MapWithAMarker = withScriptjs(withGoogleMap(props =>
   <GoogleMap
-    defaultZoom={10}
+    defaultZoom={12}
     defaultCenter={{ lat: props.lat, lng: props.lng }}
+    center={{ lat: props.lat, lng: props.lng }}
   >
-    <Marker
+    <Marker      
       position={{ lat: props.lat, lng: props.lng }}
-      //position={{ lat: -34.397, lng: 150.644 }}
     />
   </GoogleMap>
 ));

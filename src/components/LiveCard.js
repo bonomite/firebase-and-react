@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {MapWithAMarker} from './GoogleMaps'
+import Geocode from "react-geocode";
 
 export class LiveCard extends React.Component {
 
@@ -16,26 +17,41 @@ export class LiveCard extends React.Component {
 	mapMe(e){
 	    e.stopPropagation();
 	    console.log('mapMe');
+	    
+	    Geocode.setApiKey("AIzaSyBhwrEE_qhFtG7f1KYUA1NeBkehf2nvltk");
+	    Geocode.enableDebug();
+		
+		const address = `${this.props.user_model.address} ${this.props.user_model.address2} ${this.props.user_model.city} ${this.props.user_model.state} ${this.props.user_model.zip}` ;
+		console.log('address = '+address);
 
-	    const lat = 40.833200;
-	    const lng = -74.232450;
+	    Geocode.fromAddress(address).then(
+		  response => {
+		    const { lat, lng } = response.results[0].geometry.location;
+		    console.log(lat, lng);
 
-	    ReactDOM.render(<MapWithAMarker
-	      googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhwrEE_qhFtG7f1KYUA1NeBkehf2nvltk&v=3.exp&libraries=geometry,drawing,places"
-	      loadingElement={<div style={{ height: `100%` }} />}
-	      containerElement={<div style={{ height: `400px` }} />}
-	      mapElement={<div style={{ height: `100%` }} />}
-	      lat={lat}
-	      lng={lng}
-	      />, document.getElementById('Map'));
+		    ReactDOM.render(<MapWithAMarker
+		      googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhwrEE_qhFtG7f1KYUA1NeBkehf2nvltk&v=3.exp&libraries=geometry,drawing,places"
+		      loadingElement={<div style={{ height: `100%` }} />}
+		      containerElement={<div style={{ height: `400px` }} />}
+		      mapElement={<div style={{ height: `100%` }} />}
+		      lat={lat}	   
+		      lng={lng}	   
+		      />, document.getElementById('Map'));
+
+		  },
+		  error => {
+		  	console.log('error');
+		    console.error(error);
+		  }
+		);	    
     }
 
 	render() {
 
 		
 		return (
-			<div className="live-card mx-auto" uid={this.props.user_model.uid}>
-				<div onClick={this.mapMe}>
+			<div className="live-card mx-auto" onClick={this.mapMe} uid={this.props.user_model.uid}>
+				<div>
 					<p className="edit" onClick={this.props.editCard} style={{display:this.props.buttons ? 'block' : 'none'}} >EDIT</p>				
 					<p className="delete" onClick={this.props.deleteCard} style={{display:this.props.buttons ? 'block' : 'none'}} >X</p>				
 					<div className='user-img' style={{backgroundImage:"url("+this.props.user_model.image+")"}}></div>
