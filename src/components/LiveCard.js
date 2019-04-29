@@ -50,8 +50,8 @@ export class LiveCard extends React.Component {
 
 		
 		return (
-			<div className="live-card mx-auto" onClick={this.mapMe} uid={this.props.user_model.uid}>
-				<div>
+			<div className="live-card mx-auto" uid={this.props.user_model.uid}>
+				<div className="card-click" onClick={this.mapMe}>
 					<p className="edit" onClick={this.props.editCard} style={{display:this.props.buttons ? 'block' : 'none'}} >EDIT</p>				
 					<p className="delete" onClick={this.props.deleteCard} style={{display:this.props.buttons ? 'block' : 'none'}} >X</p>				
 					<div className='user-img' style={{backgroundImage:"url("+this.props.user_model.image+")"}}></div>

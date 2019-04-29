@@ -87,7 +87,7 @@ export class App extends Component {
     return (
       <div>
         <div className="container">
-          <button onClick={this.addNewUser}>ADD NEW USER</button> 
+          <button className="addNewUserButton" onClick={this.addNewUser} title="Add a user">+</button> 
           <div className="row">
             
             {peopleRender}
